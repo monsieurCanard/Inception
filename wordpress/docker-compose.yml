@@ -1,0 +1,11 @@
+version: "3.3"
+
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - 3306:9000
+    depends_on:
+      - database
+    volumes:
+      - ./wp-content:/var/www/html/wp-content

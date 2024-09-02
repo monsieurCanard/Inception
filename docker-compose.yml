@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  database:
+    extend:
+      file: ../mariadb/docker-compose.yml
+      service: database
+  
+  nginx:
+    extend:
+      file: ../nginx/docker-compose.yml
+      service: nginx
+
+  wordpress:
+    extend:
+      file: ../wordpress/docker-compose.yml
+      service: wordpress
+
+volume:
+  db-data:

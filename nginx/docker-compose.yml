@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 9000:443
+    volumes:
+      - ./nginx.conf:nginx.conf
+    depends_on:
+      - wordpress
