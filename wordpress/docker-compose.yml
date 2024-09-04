@@ -5,7 +5,7 @@ services:
     image: wordpress
     ports:
       - 3306:9000
-    depends_on:
-      - database
     volumes:
       - ./wp-content:/var/www/html/wp-content
+    depends_on:
+      - database
