@@ -1,20 +1,49 @@
 version: "3.3"
 
 services:
-  database:
-    extend:
-      file: ../mariadb/docker-compose.yml
-      service: database
-  
   nginx:
-    extend:
-      file: ../nginx/docker-compose.yml
-      service: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+        - wordpress
+    networks:
+      - ducksworks
 
   wordpress:
-    extend:
-      file: ../wordpress/docker-compose.yml
-      service: wordpress
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    depends_on:
+        - database
+    environment:
+      - WORDPRESS_DB_HOST=database
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+    ports:
+      - 80:80
+    networks:
+      - ducksworks
+  
+  database:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - ducksworks
+  
 
 volume:
   db-data:
+
+networks:
+  ducksworks:
+    driver: bridge

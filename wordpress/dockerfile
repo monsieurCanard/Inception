@@ -1,4 +1,4 @@
-FROM Debian.bullseye-slim
+FROM debian.bullseye-slim
 
 RUN apt-get update && apt-get install wordpress
 
