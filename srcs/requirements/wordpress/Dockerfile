@@ -2,7 +2,7 @@ FROM debian:buster
 
 #Install necessary package from php
 
-RUN apt-get update && apt-get -y install \
+RUN apt-get upgrade && apt-get update && apt-get -y install \
 	wget \
 	php \
 	php-cgi \
