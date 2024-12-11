@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 #Install necessary package from php
 
@@ -13,13 +13,16 @@ RUN apt-get upgrade && apt-get update && apt-get -y install \
 	php-mbstring \
 	&& rm -rf /var/lib/apt/lists/*
 
+
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /tmp/wp-cli.phar
+RUN chmod +x /tmp/wp-cli.phar
 #Copy the necessary tools to download wordpress
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 #Create the folder to enable php start
 
-RUN mkdir /run/php
+RUN mkdir /var/run/php
 
 #Launch script
 

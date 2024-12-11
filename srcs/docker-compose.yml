@@ -29,7 +29,7 @@ services:
     container_name: nginx
     build: ./requirements/nginx
     ports:
-      - "8080:443"
+      - "443:443"
     depends_on:
       - wordpress
     volumes:
@@ -43,18 +43,18 @@ networks:
     name: app-network
     driver: bridge
 
-# volumes:
-#   wp:
-#     driver: local
-#     name: wp
-#     driver_opts:
-#       type: none
-#       o: bind
-#       # device: /home/antgabri/sgoinfre/data/wordpress
-#   db:
-#     driver: local
-#     name: db
-#     driver_opts:
-#       type: none
-#       o: bind
-#       # device: /home/antgabri/sgoinfre/data/mariadb
+volumes:
+  wp:
+    driver: local
+    name: wp
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/antgabri/data/wordpress
+  db:
+    driver: local
+    name: db
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/antgabri/data/mariadb
