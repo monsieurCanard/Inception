@@ -65,6 +65,19 @@ services:
       - app-network
     restart: on-failure
 
+  ftp_server:
+    container_name: ftp_server
+    build: ./bonus/ftp_server
+    ports:
+      - "21:21"
+    depends_on:
+      - wordpress
+    volumes:
+      - wp:/var/www/html
+    networks:
+      - app-network
+    restart: on-failure
+
 networks:
   app-network:
     name: app-network
