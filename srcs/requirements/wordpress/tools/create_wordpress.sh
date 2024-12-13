@@ -22,6 +22,17 @@ else
 	/tmp/wp-cli.phar core install --url=$(cat $WORDPRESS_URL_FILE) --title=$(cat $WORDPRESS_TITLE_FILE) --admin_user=$(cat $WORDPRESS_ADMIN_USER_FILE) --admin_password=$(cat $WORDPRESS_ADMIN_PASSWORD_FILE) --admin_email=$(cat $WORDPRESS_ADMIN_EMAIL_FILE) --allow-root
 
 	/tmp/wp-cli.phar user create hen duckduck@example.com --user_pass=hen --allow-root
+
+	/tmp/wp-cli.phar plugin install redis-cache --activate --allow-root
+
+   	sed -i "1a\define('WP_REDIS_HOST', 'redis');" wp-config.php
+    sed -i "2a\define('WP_REDIS_PORT', 6379);" wp-config.php
+    sed -i "3a\define('WP_CACHE_KEY_SALT', 'antgabri.42.fr:');" wp-config.php
+    sed -i "4a\define('WP_REDIS_DATABASE', 0);" wp-config.php
+    sed -i "5a\define('WP_CACHE', true);" wp-config.php	
+	/tmp/wp-cli.phar redis enable --allow-root
+
 fi
+
 
 exec "$@"

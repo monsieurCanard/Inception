@@ -15,7 +15,6 @@ RUN apt-get upgrade && apt-get update && apt-get -y install \
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	-O /tmp/wp-cli.phar && chmod +x /tmp/wp-cli.phar
 
-
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN mkdir /var/run/php
 
