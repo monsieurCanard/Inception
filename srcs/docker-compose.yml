@@ -1,11 +1,20 @@
-version: "3.5"
+version: "3.9"
 
 services:
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
-    env_file:
-      - .env
+    build:
+     context: ./requirements/mariadb
+    environment:
+      - MY_SQL_ROOT_PASSWORD_FILE=/run/secrets/duck_root_password
+      - MY_SQL_USER_FILE=/run/secrets/duck_sql_user
+      - MY_SQL_PASSWORD_FILE=/run/secrets/duck_password
+      - DB_NAME_FILE=/run/secrets/duck_sql_db_name
+    secrets:
+      - duck_root_password
+      - duck_password
+      - duck_sql_user
+      - duck_sql_db_name
     volumes:
       - db:/var/lib/mysql
     networks:
@@ -15,8 +24,26 @@ services:
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
-    env_file:
-      - .env
+    environment:
+      - WORDPRESS_DB_HOST_FILE=/run/secrets/duck_wp_db_host
+      - WORDPRESS_DB_USER_FILE=/run/secrets/duck_wp_db_user
+      - WORDPRESS_DB_PASSWORD_FILE=/run/secrets/duck_password
+      - WORDPRESS_DB_NAME_FILE=/run/secrets/duck_wp_db_name
+      - WORDPRESS_URL_FILE=/run/secrets/duck_wp_url
+      - WORDPRESS_TITLE_FILE=/run/secrets/duck_wp_title
+      - WORDPRESS_ADMIN_USER_FILE=/run/secrets/duck_wp_admin_user
+      - WORDPRESS_ADMIN_PASSWORD_FILE=/run/secrets/duck_wp_admin_password
+      - WORDPRESS_ADMIN_EMAIL_FILE=/run/secrets/duck_wp_admin_email
+    secrets:
+      - duck_wp_db_host
+      - duck_wp_db_user
+      - duck_password
+      - duck_wp_db_name
+      - duck_wp_url
+      - duck_wp_title
+      - duck_wp_admin_user
+      - duck_wp_admin_password
+      - duck_wp_admin_email
     depends_on:
       - mariadb
     volumes:
@@ -58,3 +85,29 @@ volumes:
       type: none
       o: bind
       device: /home/antgabri/data/mariadb
+
+secrets:
+  duck_root_password:
+    file: /home/antgabri/data/.secrets_files/duck_root_password.txt
+  duck_password:
+    file: /home/antgabri/data/.secrets_files/duck_password.txt
+  duck_wp_admin_password:
+    file: /home/antgabri/data/.secrets_files/duck_wp_admin_password.txt
+  duck_sql_user:
+    file: /home/antgabri/data/.secrets_files/duck_sql_user.txt
+  duck_sql_db_name:
+    file: /home/antgabri/data/.secrets_files/duck_sql_db_name.txt
+  duck_wp_db_host:
+    file: /home/antgabri/data/.secrets_files/duck_wp_db_host.txt
+  duck_wp_db_user:
+    file: /home/antgabri/data/.secrets_files/duck_wp_db_user.txt
+  duck_wp_db_name:
+    file: /home/antgabri/data/.secrets_files/duck_wp_db_name.txt
+  duck_wp_url:
+    file: /home/antgabri/data/.secrets_files/duck_wp_url.txt
+  duck_wp_title:
+    file: /home/antgabri/data/.secrets_files/duck_wp_title.txt
+  duck_wp_admin_user:
+    file: /home/antgabri/data/.secrets_files/duck_wp_admin_user.txt
+  duck_wp_admin_email:
+    file: /home/antgabri/data/.secrets_files/duck_wp_admin_mail.txt

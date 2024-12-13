@@ -1,7 +1,5 @@
 FROM debian:bullseye
 
-#Install necessary package from php
-
 RUN apt-get upgrade && apt-get update && apt-get -y install \
 	wget \
 	php \
@@ -14,25 +12,19 @@ RUN apt-get upgrade && apt-get update && apt-get -y install \
 	&& rm -rf /var/lib/apt/lists/*
 
 
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /tmp/wp-cli.phar
-RUN chmod +x /tmp/wp-cli.phar
-#Copy the necessary tools to download wordpress
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+	-O /tmp/wp-cli.phar && chmod +x /tmp/wp-cli.phar
+
 
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-
-#Create the folder to enable php start
-
 RUN mkdir /var/run/php
-
-#Launch script
 
 COPY ./tools/create_wordpress.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_wordpress.sh
 
+WORKDIR /var/www/html/
 
 ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
-
-WORKDIR /var/www/html/
 
 EXPOSE 9000
 
