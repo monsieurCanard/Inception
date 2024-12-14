@@ -20,6 +20,21 @@ services:
     networks:
       - app-network
     restart: on-failure
+  dns:
+    container_nane: duck_dns
+    build: ./bonus/dns
+    environment:
+      - URL_FILE=/run/secrets/duck_wp_url
+    secrets:
+      - duck_wp_url
+    depends_on:
+      - nginx
+    networks:
+      - app_network
+    expose: "53"
+    ports:
+      - "53:53/udp"
+    restart: on-failure
 
   wordpress:
     container_name: wordpress
