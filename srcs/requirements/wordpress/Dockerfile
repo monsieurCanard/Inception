@@ -20,7 +20,6 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN mkdir /var/run/php
 
-
 COPY ./tools/create_wordpress.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_wordpress.sh
 

@@ -7,7 +7,6 @@ EXPOSE 443
 COPY ./conf/nginx.conf /etc/nginx/sites-enabled/default
 COPY ./tools/nginx_certif.sh /var/www
 
-COPY ./www/index.html /var/www
 
 RUN chmod +x /var/www/nginx_certif.sh
 
