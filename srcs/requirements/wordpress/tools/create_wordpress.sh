@@ -34,7 +34,9 @@ else
 		
 	/tmp/wp-cli.phar redis enable --allow-root
 
+
 fi
+	# wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php -O /var/www/html/wordpress/adminer.php
 
 
 exec "$@"
