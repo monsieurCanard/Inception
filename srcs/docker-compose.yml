@@ -46,6 +46,7 @@ services:
       - duck_wp_admin_email
     depends_on:
       - mariadb
+      - redis
     volumes:
       - wp:/var/www/html
     networks:
