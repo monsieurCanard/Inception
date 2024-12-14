@@ -30,7 +30,9 @@ services:
     depends_on:
       - nginx
     networks:
-      - app_network
+      - app_network:
+          - aliases:
+              - my_dns_ip
     expose: "53"
     ports:
       - "53:53/udp"
