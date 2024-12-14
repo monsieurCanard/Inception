@@ -71,6 +71,12 @@ services:
     build: ./bonus/ftp_server
     ports:
       - "21:21"
+    environement:
+      - FTP_PASSWORD_FILE=/run/secrets/duck_root_password
+      - FTP_USER_FILE=/run/secrets/duck_sql_user
+    secrets:
+      - duck_root_password
+      - duck_sql_user
     depends_on:
       - wordpress
     volumes:
