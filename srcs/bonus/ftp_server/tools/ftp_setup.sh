@@ -2,10 +2,10 @@
 
 echo "Starting FTP server";
 
-if grep -q "^duck:" /etc/passwd; then
-	echo "User ducsekfjslkefjslkefjk already exists";
+if grep -q "^$(cat $FTP_USER_FILE)):" /etc/passwd; then
+	echo "FTP user already exists";
 else
-	useradd -d /var/www/html duck
+	useradd -d /var/www/html $(cat $FTP_PASSWORD_FILE))
 	echo "duck:duck4life" | chpasswd
 fi
 
