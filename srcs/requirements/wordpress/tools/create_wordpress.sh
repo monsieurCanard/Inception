@@ -33,8 +33,9 @@ else
 	/tmp/wp-cli.phar plugin install redis-cache --activate --allow-root
 		
 	/tmp/wp-cli.phar redis enable --allow-root
-
-
 fi
+
+echo "Copying website files"
+cp -r /tmp/www/* /var/www/html
 
 exec "$@"

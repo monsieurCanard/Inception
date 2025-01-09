@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.7"
 
 services:
   mariadb:
@@ -19,23 +19,6 @@ services:
       - db:/var/lib/mysql
     networks:
       - app-network
-    restart: on-failure
-  dns:
-    container_nane: duck_dns
-    build: ./bonus/dns
-    environment:
-      - URL_FILE=/run/secrets/duck_wp_url
-    secrets:
-      - duck_wp_url
-    depends_on:
-      - nginx
-    networks:
-      - app_network:
-          - aliases:
-              - my_dns_ip
-    expose: "53"
-    ports:
-      - "53:53/udp"
     restart: on-failure
 
   wordpress:
@@ -86,9 +69,7 @@ services:
   ftp_server:
     container_name: ftp_server
     build: ./bonus/ftp_server
-    ports:
-      - "21:21"
-    environement:
+    environment:
       - FTP_PASSWORD_FILE=/run/secrets/duck_root_password
       - FTP_USER_FILE=/run/secrets/duck_sql_user
     secrets:
@@ -96,6 +77,8 @@ services:
       - duck_sql_user
     depends_on:
       - wordpress
+    ports:
+      - "21:21"
     volumes:
       - wp:/var/www/html
     networks:
