@@ -9,6 +9,12 @@ export MY_SQL_ROOT_PASSWORD=$(cat $MY_SQL_ROOT_PASSWORD_FILE);
 export MY_SQL_USER=$(cat $MY_SQL_USER_FILE);
 export DB_NAME=$(cat $DB_NAME_FILE);
 
+echo "Sql root password: $MY_SQL_ROOT_PASSWORD";
+echo "Sql user: $MY_SQL_USER";
+echo "Sql password: $MY_SQL_PASSWORD";
+echo "Database name: $DB_NAME";
+
+
 DB_ALREADY_EXISTS=$(mysql -uroot -p$MY_SQL_ROOT_PASSWORD -e "SHOW DATABASES" | grep ${MY_WORDPRESS_DB} | wc -l);
 
 if [ $DB_ALREADY_EXISTS -eq 1 ]; then

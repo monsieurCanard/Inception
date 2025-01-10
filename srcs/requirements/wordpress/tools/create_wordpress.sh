@@ -36,6 +36,7 @@ else
 fi
 
 echo "Copying website files"
-cp -r /tmp/www/* /var/www/html
+mkdir -p /var/www/html/static_site
+cp -r /tmp/www/* /var/www/html/static_site/
 
 exec "$@"

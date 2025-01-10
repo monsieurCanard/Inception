@@ -5,8 +5,8 @@ openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout /etc/ssl/private/ngi
 echo "Nginx: Certificate and key are set up!";
 fi
 
-mkdir -p /var/www/html/admin
-cd /var/www/html/admin
-wget http://www.adminer.org/latest.php -O adminer.php
+# mkdir -p /var/www/html/admin
+# cd /var/www/html/admin
+# wget http://www.adminer.org/latest.php -O adminer.php
 
 exec "$@"
