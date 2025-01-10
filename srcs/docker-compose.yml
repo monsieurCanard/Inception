@@ -77,6 +77,16 @@ services:
       - app-network
     restart: on-failure
 
+  grafana:
+    container_name: grafana
+    build: ./bonus/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    restart: on-failure
+
+
   ftp_server:
     container_name: ftp_server
     build: ./bonus/ftp_server
