@@ -5,18 +5,11 @@ services:
     container_name: mariadb
     build:
      context: ./requirements/mariadb
-    environment:
-      - MY_SQL_ROOT_PASSWORD_FILE=/run/secrets/root_password
-      - MY_SQL_USER_FILE=/run/secrets/sql_user
-      - MY_SQL_PASSWORD_FILE=/run/secrets/password
-      - DB_NAME_FILE=/run/secrets/sql_db_name
-    secrets:
-      - root_password
-      - password
-      - sql_user
-      - sql_db_name
+    depends_on:
+      - doppler
     volumes:
       - db:/var/lib/mysql
+      - secrets:/tmp/.secrets
     networks:
       - app-network
     restart: on-failure
@@ -24,31 +17,13 @@ services:
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress
-    environment:
-      - WORDPRESS_DB_HOST_FILE=/run/secrets/wp_db_host
-      - WORDPRESS_DB_USER_FILE=/run/secrets/wp_db_user
-      - WORDPRESS_DB_PASSWORD_FILE=/run/secrets/password
-      - WORDPRESS_DB_NAME_FILE=/run/secrets/wp_db_name
-      - WORDPRESS_URL_FILE=/run/secrets/wp_url
-      - WORDPRESS_TITLE_FILE=/run/secrets/wp_title
-      - WORDPRESS_ADMIN_USER_FILE=/run/secrets/wp_admin_user
-      - WORDPRESS_ADMIN_PASSWORD_FILE=/run/secrets/wp_admin_password
-      - WORDPRESS_ADMIN_EMAIL_FILE=/run/secrets/wp_admin_email
-    secrets:
-      - wp_db_host
-      - wp_db_user
-      - password
-      - wp_db_name
-      - wp_url
-      - wp_title
-      - wp_admin_user
-      - wp_admin_password
-      - wp_admin_email
     depends_on:
       - mariadb
       - redis
+      - doppler
     volumes:
       - wp:/var/www/html
+      - secrets:/tmp/.secrets
     networks:
       - app-network
     restart: on-failure
@@ -69,39 +44,36 @@ services:
   adminer:
     container_name: adminer
     build: ./bonus/adminer
+    networks:
+      - app-network
     depends_on:
       - mariadb
+    restart: on-failure
+
+  doppler:
+    container_name: doppler
+    build: ./bonus/doppler
+    networks:
+      - app-network
+    environment:
+      - DOPPLER_TOKEN=/run/secrets/auth_token
+    secrets:
+      - auth_token
     volumes:
-      - wp:/var/www/html
-    networks:
-      - app-network
+      - secrets:/tmp/.secrets
     restart: on-failure
-
-  grafana:
-    container_name: grafana
-    build: ./bonus/grafana
-    ports:
-      - "3000:3000"
-    networks:
-      - app-network
-    restart: on-failure
-
 
   ftp_server:
     container_name: ftp_server
     build: ./bonus/ftp_server
-    environment:
-      - FTP_PASSWORD=/run/secrets/root_password
-      - FTP_USER=/run/secrets/sql_user
-    secrets:
-      - root_password
-      - sql_user
     depends_on:
       - wordpress
+      - doppler
     ports:
       - "21:21"
     volumes:
       - wp:/var/www/html
+      - secrets:/tmp/.secrets
     networks:
       - app-network
     restart: on-failure
@@ -137,7 +109,6 @@ volumes:
       type: none
       o: bind
       device: /home/antgabri/data/mariadb
-
   redis-data:
     driver: local
     name: redis-data
@@ -145,29 +116,14 @@ volumes:
       type: none
       o: bind
       device: /home/antgabri/data/redis
+  secrets:
+    driver: local
+    name: secrets
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/antgabri/data/secrets
 
 secrets:
-  root_password:
-    file: ${ROOT_PASSWORD}
-  password:
-    file: ${PASSWORD}
-  wp_admin_password:
-    file: ${WP_ADMIN_PASSWORD}
-  sql_user:
-    file: ${SQL_USER}
-  sql_db_name:
-    file: ${SQL_DB_NAME}
-  wp_db_host:
-    file: ${WP_DB_HOST}
-  wp_db_user:
-    file: ${WP_DB_USER}
-  wp_db_name:
-    file: ${WP_DB_NAME}
-  wp_url:
-    file: ${WP_URL}
-  wp_title:
-    file: ${WP_TITLE}
-  wp_admin_user:
-    file: ${WP_ADMIN_USER}
-  wp_admin_email:
-    file: ${WP_ADMIN_EMAIL}
+  auth_token:
+    file: /home/antgabri/data/token/doppler_token.txt

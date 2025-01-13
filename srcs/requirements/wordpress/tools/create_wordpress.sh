@@ -1,6 +1,22 @@
 #!/bin/sh
 
-sleep 10
+# sleep 10
+
+while [ ! -f /tmp/.secrets/.env ]; do
+	echo "Waiting for secrets to be mounted";
+	sleep 1;
+done
+
+set -a
+. /tmp/.secrets/.env
+set +a
+
+cat /tmp/.secrets/.env
+
+echo "WP_USER: $WP_USER";
+echo "PASSWORD: $PASSWORD";
+echo "WP_DB_HOST: $WP_DB_HOST";
+echo "WP_DB_NAME: $WP_DB_NAME";
 
 
 if [ -f ./wordpress/wp-config.php ]
@@ -13,10 +29,10 @@ else
 
 	cd /var/www/html/wordpress
 
-	sed -i "s/username_here/$(cat $WORDPRESS_DB_USER_FILE)/g" wp-config-sample.php
-	sed -i "s/password_here/$(cat $WORDPRESS_DB_PASSWORD_FILE)/g" wp-config-sample.php
-	sed -i "s/localhost/$(cat $WORDPRESS_DB_HOST_FILE)/g" wp-config-sample.php
-	sed -i "s/database_name_here/$(cat $WORDPRESS_DB_NAME_FILE)/g" wp-config-sample.php
+	sed -i "s/username_here/$WP_USER/g" wp-config-sample.php
+	sed -i "s/password_here/$PASSWORD/g" wp-config-sample.php
+	sed -i "s/localhost/$WP_DB_HOST/g" wp-config-sample.php
+	sed -i "s/database_name_here/$WP_DB_NAME/g" wp-config-sample.php
 
    	sed -i "1a\define('WP_REDIS_HOST', 'redis');" wp-config-sample.php
     sed -i "2a\define('WP_REDIS_PORT', 6379);" wp-config-sample.php
@@ -26,7 +42,7 @@ else
 	
 	mv wp-config-sample.php wp-config.php
 
-	/tmp/wp-cli.phar core install --url=$(cat $WORDPRESS_URL_FILE) --title=$(cat $WORDPRESS_TITLE_FILE) --admin_user=$(cat $WORDPRESS_ADMIN_USER_FILE) --admin_password=$(cat $WORDPRESS_ADMIN_PASSWORD_FILE) --admin_email=$(cat $WORDPRESS_ADMIN_EMAIL_FILE) --allow-root
+	/tmp/wp-cli.phar core install --url=$WP_URL --title=$WP_TITLE --admin_user=$WP_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_MAIL --allow-root
 
 	/tmp/wp-cli.phar user create hen duckduck@example.com --user_pass=hen --allow-root
 

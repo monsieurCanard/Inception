@@ -12,4 +12,3 @@ RUN mkdir -p /var/run/redis && \
 EXPOSE 6379
 
 CMD [ "redis-server", "/etc/redis/redis.conf" ]
-# CMD [ &quot;redis-server&quot;, &quot;/usr/local/etc/redis/redis.conf&quot; ]
