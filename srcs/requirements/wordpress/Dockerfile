@@ -13,9 +13,6 @@ RUN apt-get upgrade && apt-get update && apt-get -y install \
 	&& rm -rf /var/lib/apt/lists/*
 
 
-COPY ./www /tmp/www
-RUN chmod -R 755 /tmp/www
-
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	-O /tmp/wp-cli.phar && chmod +x /tmp/wp-cli.phar
 

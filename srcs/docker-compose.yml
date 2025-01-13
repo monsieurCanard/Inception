@@ -1,10 +1,23 @@
 version: "3.7"
 
 services:
+
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    volumes:
+      - wp:/var/www/html
+    networks:
+      - app-network
+    restart: on-failure
+
   mariadb:
     container_name: mariadb
-    build:
-     context: ./requirements/mariadb
+    build: ./requirements/mariadb
     depends_on:
       - doppler
     volumes:
@@ -28,18 +41,6 @@ services:
       - app-network
     restart: on-failure
 
-  nginx:
-    container_name: nginx
-    build: ./requirements/nginx
-    ports:
-      - "443:443"
-    depends_on:
-      - wordpress
-    volumes:
-      - wp:/var/www/html
-    networks:
-      - app-network
-    restart: on-failure
 
   adminer:
     container_name: adminer
@@ -50,18 +51,6 @@ services:
       - mariadb
     restart: on-failure
 
-  doppler:
-    container_name: doppler
-    build: ./bonus/doppler
-    networks:
-      - app-network
-    environment:
-      - DOPPLER_TOKEN=/run/secrets/auth_token
-    secrets:
-      - auth_token
-    volumes:
-      - secrets:/tmp/.secrets
-    restart: on-failure
 
   ftp_server:
     container_name: ftp_server
@@ -76,6 +65,19 @@ services:
       - secrets:/tmp/.secrets
     networks:
       - app-network
+    restart: on-failure
+
+  doppler:
+    container_name: doppler
+    build: ./bonus/doppler
+    networks:
+      - app-network
+    environment:
+      - DOPPLER_TOKEN=/run/secrets/auth_token
+    secrets:
+      - auth_token
+    volumes:
+      - secrets:/tmp/.secrets
     restart: on-failure
   
   redis:

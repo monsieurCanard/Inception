@@ -31,7 +31,7 @@ END
 
 mysql -uroot -p$ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $SQL_DB_NAME;"
 
-mysql -uroot -p$ROOT_PASSWORD -e  "grant all on *.* to 'root'@'%' identified by '$ROOT_PASSWORD';FLUSH PRIVILEGES;";
+# mysql -uroot -p$ROOT_PASSWORD -e  "grant all on *.* to 'root'@'%' identified by '$ROOT_PASSWORD';FLUSH PRIVILEGES;";
 
 mysql -uroot -p$ROOT_PASSWORD -e "CREATE USER '$SQL_USER'@'%' IDENTIFIED BY '$PASSWORD'; GRANT ALL PRIVILEGES ON $SQL_DB_NAME.* TO '$SQL_USER'@'%'; FLUSH 
 PRIVILEGES;";

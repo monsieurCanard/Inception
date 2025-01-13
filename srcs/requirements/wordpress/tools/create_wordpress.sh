@@ -36,7 +36,7 @@ else
 
    	sed -i "1a\define('WP_REDIS_HOST', 'redis');" wp-config-sample.php
     sed -i "2a\define('WP_REDIS_PORT', 6379);" wp-config-sample.php
-    sed -i "3a\define('WP_CACHE_KEY_SALT', 'antgabri.42.fr');" wp-config-sample.php
+    sed -i "3a\define('WP_CACHE_KEY_SALT', '${WP_URL}');" wp-config-sample.php
     sed -i "4a\define('WP_REDIS_DATABASE', 0);" wp-config-sample.php
     sed -i "5a\define('WP_CACHE', true);" wp-config-sample.php	
 	
@@ -49,8 +49,10 @@ else
 	/tmp/wp-cli.phar plugin install redis-cache --activate --allow-root
 		
 	/tmp/wp-cli.phar redis enable --allow-root
+
 fi
 
+	chown -R www-data:www-data /var/www/html/wordpress
 echo "Copying website files"
 mkdir -p /var/www/html/static_site
 cp -r /tmp/www/* /var/www/html/static_site/
