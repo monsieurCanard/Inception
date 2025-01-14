@@ -10,6 +10,7 @@ RUN apt-get upgrade && apt-get update && apt-get -y install \
 	php-redis \
 	php-gd php-cli \
 	php-mbstring \
+	netcat \
 	&& rm -rf /var/lib/apt/lists/*
 
 
@@ -21,6 +22,8 @@ RUN mkdir /var/run/php
 
 COPY ./tools/create_wordpress.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_wordpress.sh
+
+COPY ./www/ /tmp/www/
 
 WORKDIR /var/www/html/
 

@@ -12,4 +12,4 @@ RUN chmod +x /usr/local/bin/doppler.sh
 
 ENTRYPOINT [ "/usr/local/bin/doppler.sh" ]
 
-CMD [ "printenv" ]
+CMD [ "sleep", "30" ]

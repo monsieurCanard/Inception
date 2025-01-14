@@ -11,4 +11,8 @@ RUN mkdir -p /var/run/redis && \
 
 EXPOSE 6379
 
+WORKDIR /etc/redis
+
+RUN echo "Redis cache server DONE"
+
 CMD [ "redis-server", "/etc/redis/redis.conf" ]

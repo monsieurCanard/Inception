@@ -11,6 +11,7 @@ services:
       - wordpress
     volumes:
       - wp:/var/www/html
+      - secrets:/tmp/.secrets
     networks:
       - app-network
     restart: on-failure
@@ -41,7 +42,6 @@ services:
       - app-network
     restart: on-failure
 
-
   adminer:
     container_name: adminer
     build: ./bonus/adminer
@@ -50,7 +50,6 @@ services:
     depends_on:
       - mariadb
     restart: on-failure
-
 
   ftp_server:
     container_name: ftp_server
@@ -70,10 +69,10 @@ services:
   doppler:
     container_name: doppler
     build: ./bonus/doppler
-    networks:
-      - app-network
     environment:
       - DOPPLER_TOKEN=/run/secrets/auth_token
+    networks:
+      - app-network
     secrets:
       - auth_token
     volumes:
@@ -85,8 +84,6 @@ services:
     build: ./bonus/redis
     ports:
       - "6379:6379"
-    volumes:
-      - redis-data:/var/lib/redis
     networks:
       - app-network
     restart: on-failure
@@ -111,13 +108,6 @@ volumes:
       type: none
       o: bind
       device: /home/antgabri/data/mariadb
-  redis-data:
-    driver: local
-    name: redis-data
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/antgabri/data/redis
   secrets:
     driver: local
     name: secrets
