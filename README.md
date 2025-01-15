@@ -23,6 +23,6 @@ Introducing Docker, Docker Compose, and Docker Network
 - Ftp-server
 - Static website page
 
-## 🔧 How I did it
+## 🐋 How I did it
 
 //IMAGES
