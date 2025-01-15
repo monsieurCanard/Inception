@@ -15,11 +15,11 @@ Introducing Docker, Docker Compose, and Docker Network
 
 ## 🔧 Bonus Service
 
-- Static website page
-- Adminer
 - Redis
-- Ftp-server
+- Adminer
 - Doppler
+- Ftp-server
+- Static website page
 
 ## 🔧 How I did it
 
