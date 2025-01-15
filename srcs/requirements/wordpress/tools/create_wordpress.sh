@@ -1,22 +1,24 @@
 #!/bin/sh
 
-set -a
-. /tmp/.secrets/.env
-set +a
-
-while ! nc -z $WP_DB_NAME 3306
-do
-	echo "Waiting for mariadb to be up";
-	sleep 1;
-done
 
 if [ -f ./wordpress/wp-config.php ]
 then
 	echo "wordpress already downloaded"
+	sleep 5
+	rm /tmp/.secrets/.env
+
 else
 	echo "Downloading wordpress"
-
 	
+	set -a
+	. /tmp/.secrets/.env
+	set +a
+
+	while ! nc -z $WP_DB_NAME 3306; do
+		echo "Waiting for mariadb to be up";
+		sleep 1;
+	done
+
 	wget https://wordpress.org/latest.tar.gz
 	tar -xzvf latest.tar.gz
 	rm -rf latest.tar.gz
@@ -45,14 +47,13 @@ else
 	/tmp/wp-cli.phar redis enable --allow-root
 
 	chown -R www-data:www-data /var/www/html/wordpress
+	rm /tmp/.secrets/.env
 fi
-
 
 mkdir -p /var/www/html/static_site
 
 echo "Copying website files"
 cp -r /tmp/www/* /var/www/html/static_site/
 
-rm /tmp/.secrets/.env
 
 exec "$@"

@@ -1,17 +1,10 @@
 #!/bin/sh
 
-sleep 5;
+/etc/init.d/mariadb start;
 
 set -a
 . /tmp/.secrets/.env
 set +a
-
-echo "verifie les variables d'environnement";
-echo "ROOT_PASSWORD: $ROOT_PASSWORD";
-echo "SQL_DB_NAME: $SQL_DB_NAME";
-echo "SQL_USER: $SQL_USER";
-
-/etc/init.d/mariadb start;
 
 DB_ALREADY_EXISTS=$(mysql -uroot -p$ROOT_PASSWORD -e "SHOW DATABASES" | grep $SQL_DB_NAME | wc -l);
 

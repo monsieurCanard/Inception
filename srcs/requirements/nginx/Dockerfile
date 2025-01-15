@@ -10,8 +10,6 @@ RUN chmod +x /var/www/nginx_certif.sh
 RUN chmod -R 755 /var/www/html && \
 	chown -R www-data:www-data /var/www/html
 
-EXPOSE 443
-
 ENTRYPOINT [ "var/www/nginx_certif.sh" ]
 
 CMD ["nginx", "-g", "daemon off;"]

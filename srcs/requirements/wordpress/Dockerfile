@@ -11,6 +11,7 @@ RUN apt-get upgrade && apt-get update && apt-get -y install \
 	php-gd php-cli \
 	php-mbstring \
 	netcat \
+	tini \
 	&& rm -rf /var/lib/apt/lists/*
 
 
@@ -27,8 +28,9 @@ COPY ./www/ /tmp/www/
 
 WORKDIR /var/www/html/
 
-ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
-
 EXPOSE 9000
+
+ENTRYPOINT ["/usr/bin/tini", "--", "/usr/local/bin/create_wordpress.sh"]
+
 
 CMD ["/usr/sbin/php-fpm7.4", "-F"]

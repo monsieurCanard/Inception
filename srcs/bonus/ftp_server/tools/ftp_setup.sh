@@ -9,7 +9,7 @@ set -a
 . /tmp/.secrets/.env	
 set +a
 
-cat /tmp/.secrets/.env
+
 if grep -q "^$FTP_USER:" /etc/passwd; then
 	echo "FTP user already exists";
 else

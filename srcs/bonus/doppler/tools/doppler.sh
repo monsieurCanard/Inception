@@ -17,4 +17,4 @@ echo "Doppler secrets downloaded";
 
 unset DOPPLER_TOKEN;
 
-exec "$@"
+exec echo "Doppler secrets are ready";

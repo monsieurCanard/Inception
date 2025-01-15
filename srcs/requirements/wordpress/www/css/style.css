@@ -1,0 +1,59 @@
+@function grid($grid-size) {
+@return calc(100vw / 24 * #{$grid-size});
+}
+
+@font-face {
+	font-family: "Anybody";
+	src: url("https://assets.codepen.io/1492907/Anybody.woff2") format("woff2");
+}
+
+* {
+	font-family: "Anybody";
+	margin: 0;
+}
+
+::selection {
+	background: #0e0e0e;
+	color: #f0f0f0;
+}
+
+h1 {
+	padding: 4rem;
+	filter: url(#distortionFilter);
+	font-size: 10rem;
+	color: #0e0e0e;
+	font-variation-settings: "wght" 700;
+	@media (max-width: 800px) {
+		font-size: 8rem;
+	}
+}
+
+svg {
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: -9999px;
+	pointer-events: none;
+}
+
+body {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #f0f0f0;
+}
+
+a {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 2rem;
+	color: #0e0e0e;
+	text-decoration: none;
+	&:last-of-type {
+		right: 0;
+		left: unset;
+	}
+}

@@ -11,5 +11,3 @@ COPY ./tools/doppler.sh /usr/local/bin/doppler.sh
 RUN chmod +x /usr/local/bin/doppler.sh
 
 ENTRYPOINT [ "/usr/local/bin/doppler.sh" ]
-
-CMD [ "sleep", "30" ]
