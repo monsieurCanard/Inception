@@ -9,8 +9,6 @@ RUN chmod +x /usr/local/bin/ftp_setup.sh
 
 RUN mkdir -p /var/run/vsftpd/empty
 
-EXPOSE 21
-
 ENTRYPOINT ["tini", "--", "/usr/local/bin/ftp_setup.sh"]
 
 CMD ["vsftpd", "/etc/vsftpd.conf"]

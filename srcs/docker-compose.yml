@@ -88,6 +88,15 @@ services:
       - app-network
     restart: on-failure
 
+  static-site:
+    container_name: static_site
+    build: ./bonus/static_site
+    volumes:
+      - wp:/var/www/html
+    networks:
+      - app-network
+    restart: on-failure
+
 networks:
   app-network:
     name: app-network

@@ -24,8 +24,6 @@ RUN mkdir /var/run/php
 COPY ./tools/create_wordpress.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_wordpress.sh
 
-COPY ./www/ /tmp/www/
-
 WORKDIR /var/www/html/
 
 EXPOSE 9000

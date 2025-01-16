@@ -30,7 +30,7 @@ else
 	sed -i "s/localhost/$WP_DB_HOST/g" wp-config-sample.php
 	sed -i "s/database_name_here/$WP_DB_NAME/g" wp-config-sample.php
 
-   	sed -i "1a\define('WP_REDIS_HOST', 'redis');" wp-config-sample.php
+   	sed -i "1a\define('WP_REDIS_HOST', '${REDIS_HOST}');" wp-config-sample.php
     sed -i "2a\define('WP_REDIS_PORT', 6379);" wp-config-sample.php
     sed -i "3a\define('WP_CACHE_KEY_SALT', '${WP_URL}');" wp-config-sample.php
     sed -i "4a\define('WP_REDIS_DATABASE', 0);" wp-config-sample.php
@@ -50,10 +50,10 @@ else
 	rm /tmp/.secrets/.env
 fi
 
-mkdir -p /var/www/html/static_site
+# mkdir -p /var/www/html/static_site
 
-echo "Copying website files"
-cp -r /tmp/www/* /var/www/html/static_site/
+# echo "Copying website files"
+# cp -r /tmp/www/* /var/www/html/static_site/
 
 
 exec "$@"
